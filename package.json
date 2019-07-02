@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint",
     "start": "node ./bin/www",
-    "test": "mocha ./tests --recursive"
+    "test": "mocha ./tests --recursive",
+    "dev": "nodemon ./bin/www --exec babel-node --presets babel-preset-env"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -18,12 +19,15 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.18.0",
-    "mocha": "^6.1.4"
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.1"
   }
 }

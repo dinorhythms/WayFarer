@@ -1,9 +1,17 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+import auth from './auth';
+import trips from './trips';
+import users from './users';
+
+const v1 = express.Router();
+
+v1.use('/auth', auth);
+v1.use('/trips', trips);
+v1.use('/users', users);
+
+v1.get('/', function(req, res, next) {
+  res.send('hello dino')
 });
 
-module.exports = router;
+export default v1;
