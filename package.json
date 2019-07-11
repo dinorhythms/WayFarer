@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require @babel/register --recursive ./src/test",
+    "test": "cross-env NODE_ENV=test mocha --require @babel/register --recursive ./src/test --exit",
     "build": "babel src --out-dir dist --copy-files",
     "clean": "rm -rf dist && mkdir dist",
     "heroku-postbuild": "npm run clean && npm run build",
@@ -35,10 +35,13 @@
     "@babel/register": "^7.4.4",
     "babel-eslint": "^10.0.2",
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.0",
     "mocha": "^6.1.4",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "supertest": "^4.0.2"
   }
 }

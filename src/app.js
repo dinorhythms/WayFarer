@@ -22,11 +22,11 @@ app.use(cors());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/v1', v1);
-app.use('/', v1);
-
-app.get('*', (req, res) => res.status(200).json({success:'WayFarer!!!'}));
 
 const port = parseInt(process.env.PORT, 10) || 4000;
-app.listen(port, () => console.log(`Live at ${port}`));
+
+if(!module.parent){ 
+    app.listen(port, () => console.log(`Live at ${port}`));
+}
   
 export default app;
