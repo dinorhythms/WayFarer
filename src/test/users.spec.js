@@ -12,6 +12,8 @@ const should = chai.should();
 
 const pool = new Pool({ connectionString: process.env.TEST_DB_URL });
 
+let token = '';
+
 before(function (done) {
   this.timeout(10000)
   const query = `
@@ -24,7 +26,7 @@ before(function (done) {
   done();
 });
 
-describe('User Signup POST api/v1/auth/signup', function () {
+describe('# User Signup POST', function () {
   this.timeout(10000)
   describe('POST sign up successful', function () {
     it('Should sign up successful', function (done) {
@@ -96,7 +98,7 @@ describe('User Signup POST api/v1/auth/signup', function () {
 
 });
 
-describe('User Signin POST api/v1/auth/signin', function () {
+describe('# User Signin POST', function () {
   this.timeout(10000)
   describe('POST signin successfully', function () {
     it('Should signin successfully', function (done) {
@@ -107,6 +109,7 @@ describe('User Signin POST api/v1/auth/signin', function () {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function (err, res) {
+          token = res.body.data.token;
           if (err) return done(err);
           res.should.have.status(200);
           res.should.be.json;
@@ -161,6 +164,54 @@ describe('User Signin POST api/v1/auth/signin', function () {
           res.body.status.should.be.a('string');
           res.body.status.should.be.equal('error');
           res.body.data.should.be.equal('Invalid Credentials');
+          done();
+        });
+    });
+  });
+
+});
+
+describe('# Authenticated User Token', function () {
+  this.timeout(10000)
+  describe('GET successful', function () {
+    it('Should be successfully', function (done) {
+      request
+        .get('/api/v1/auth/user')
+        .set('Accept', 'application/json')
+        .set('x-access-token', token)
+        .end(function (err, res) {
+          if (err) return done(err);
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.status.should.be.a('string');
+          res.body.data.should.be.a('object');
+          res.body.data.should.have.property('user_id');
+          res.body.data.should.have.property('is_admin');
+          res.body.data.should.have.property('email');
+          res.body.data.should.have.property('first_name');
+          res.body.data.should.have.property('last_name');
+          done();
+        });
+    });
+  });
+
+  describe('GET failed auth', function () {
+    it('Should be return authorization denied', function (done) {
+      request
+        .get('/api/v1/auth/user')
+        .set('Accept', 'application/json')
+        .end(function (err, res) {
+          if (err) return done(err);
+          res.should.have.status(401);
+          res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.status.should.be.equal('error');
+          res.body.data.should.be.equal('No token, authorization denied');
           done();
         });
     });
