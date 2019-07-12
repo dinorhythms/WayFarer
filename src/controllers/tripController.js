@@ -47,6 +47,20 @@ class tripController {
 
     }
 
+    static async getTrips(req,res){
+
+        const trips = await tripModel.getAllTrips()
+        //check trip
+        if(trips) {
+        return res.status(200)
+            .json({
+                status: 'success',
+                data: trips
+            })
+        }
+
+    }
+
 }
 
 export default tripController;
