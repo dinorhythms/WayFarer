@@ -92,6 +92,20 @@ class authController {
 
     }
 
+    static async user(req,res){
+        const userId = req.user.id;
+
+        //check get user by id
+        const user = await userModel.getUserById(userId);
+        if(user) return res.status(200).json({status:'success', data: {
+            user_id: user.id,
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            is_admin: user.is_admin
+        }})
+    }
+
 }
 
 export default authController;

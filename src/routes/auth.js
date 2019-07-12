@@ -14,4 +14,9 @@ auth.post('/signup', authController.signUp);
 // @access  Public
 auth.post('/signin', authController.signIn);
 
+// @route   GET api/v1/auth/user
+// @desc    Get User data
+// @access  Private
+auth.get('/user', userRouteAuth, authController.user);
+
 export default auth;

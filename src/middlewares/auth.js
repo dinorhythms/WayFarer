@@ -5,12 +5,12 @@ import userModel from '../models/userModel';
 dotenv.config()
 
 function userRouteAuth(req, res, next) {
-    const token = req.header('x-auth-token');
+    const token = req.header('x-access-token');
 
     //check for token
-    if (!token) res.status(401).json({ status: 'error', data: "No token, authorization denied" });
-
-    if(token){
+    if (!token){
+        res.status(401).json({ status: 'error', data: "No token, authorization denied" });
+    } else {
         try {
             //verify token
             const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -28,9 +28,9 @@ export async function adminRouteAuth(req, res, next) {
     const token = req.header('x-auth-token');
 
     // check for token
-    if (!token) res.status(401).json({ status: 'error', data: "No token, authorization denied" });
-    
-    if(token){
+    if (!token){
+         res.status(401).json({ status: 'error', data: "No token, authorization denied" });
+    } else {
         try {
             //verify token
             const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
