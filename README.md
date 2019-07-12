@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/dinorhythms/WayFarer.svg?branch=develop)](https://travis-ci.org/dinorhythms/WayFarer)
