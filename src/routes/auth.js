@@ -9,4 +9,9 @@ const auth = express.Router();
 // @access  Public
 auth.post('/signup', authController.signUp);
 
+// @route   POST api/v1/auth/signin
+// @desc    User signin
+// @access  Public
+auth.post('/signin', authController.signIn);
+
 export default auth;
