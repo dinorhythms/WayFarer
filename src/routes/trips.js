@@ -8,7 +8,6 @@ const trips = express.Router();
 // @desc    Create trip
 // @access  Private
 // @role    Admin only
-// trips.post('/', tripController.createTrip);
 trips.post('/', adminRouteAuth, tripController.createTrip);
 
 

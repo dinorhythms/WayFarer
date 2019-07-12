@@ -15,7 +15,7 @@ const pool = new Pool({ connectionString: process.env.TEST_DB_URL });
 let token = '';
 
 before(function (done) {
-  this.timeout(10000)
+  // this.timeout(10000)
   const query = `
   DELETE FROM users;
   DELETE FROM buses;
@@ -226,8 +226,6 @@ describe('# Trips', function () {
     it('Should be successfully', function (done) {
       request
         .post('/api/v1/trips')
-        .set('Accept', 'application/json')
-        .set('x-access-token', token)
         .end(function (err, res) {
           if (err) return done(err);
           done();
@@ -239,8 +237,6 @@ describe('# Trips', function () {
     it('Should be able to allow admin and user see all trips', function (done) {
       request
         .get('/api/v1/trips')
-        .set('Accept', 'application/json')
-        .set('x-access-token', token)
         .end(function (err, res) {
           if (err) return done(err);
           done();
@@ -248,4 +244,18 @@ describe('# Trips', function () {
     });
   });
 
+});
+
+describe('# Bookings', function () {
+  this.timeout(10000)
+  describe('POST booking successful', function () {
+    it('Should book successfully', function (done) {
+      request
+        .post('/api/v1/bookings')
+        .end(function (err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
 });

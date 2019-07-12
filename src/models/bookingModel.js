@@ -6,14 +6,14 @@ const pool = new Pool({ connectionString:process.env.DB_URL });
 
 class tripModel {
 
-    static async createTrip(tripData){
+    static async createBooking(bookingData){
 
         try {
-            const { bus_id, origin, destination, trip_date, fare, capacity, status } = tripData;
+            const { trip_id, user_id, seat_number } = bookingData;
             
-            const query = `INSERT INTO trips ( bus_id, origin, destination, trip_date, fare, capacity, status ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, bus_id, origin, destination, trip_date, capacity, fare`;
+            const query = `INSERT INTO bookings ( trip_id, user_id, seat_number) VALUES ($1, $2, $3) RETURNING id, trip_id, user_id, seat_number`;
 
-            const result = await pool.query(query, [bus_id, origin, destination, trip_date, fare, capacity, status])
+            const result = await pool.query(query, [trip_id, user_id, seat_number])
             if(result.rowCount > 0){
                 return result.rows[0]
             }
@@ -54,21 +54,6 @@ class tripModel {
             throw error;
         }
 
-    }
-
-    static async updateTripSeat(trip_id){
-
-        try {
-            const query = `UPDATE trips SET booked_seat=booked_seat+1 WHERE id = '${trip_id}' RETURNING *`;
-            const result = await pool.query(query)
-            if(result.rowCount > 0){
-                return result.rows[0]
-            }
-            return null
-        } catch (error) {
-            throw error;
-        }
-        
     }
 
 }
