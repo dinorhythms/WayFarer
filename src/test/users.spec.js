@@ -220,12 +220,25 @@ describe('# Authenticated User Token', function () {
 
 });
 
-describe('# Admin Only Creates Trips', function () {
+describe('# Trips', function () {
   this.timeout(10000)
-  describe('POST successful', function () {
+  describe('POST Admin Only Creates trips', function () {
     it('Should be successfully', function (done) {
       request
         .post('/api/v1/trips')
+        .set('Accept', 'application/json')
+        .set('x-access-token', token)
+        .end(function (err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+
+  describe('GET successful', function () {
+    it('Should be able to allow admin and user see all trips', function (done) {
+      request
+        .get('/api/v1/trips')
         .set('Accept', 'application/json')
         .set('x-access-token', token)
         .end(function (err, res) {

@@ -24,6 +24,22 @@ class tripModel {
 
     }
 
+    static async getAllTrips(tripData){
+
+        try {
+            const query = `SELECT * FROM trips`;
+
+            const result = await pool.query(query)
+            if(result.rowCount > 0){
+                return result.rows
+            }
+            return null;
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
 }
 
 export default tripModel;
