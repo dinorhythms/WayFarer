@@ -52,11 +52,13 @@ class tripController {
         const trips = await tripModel.getAllTrips()
         //check trip
         if(trips) {
-        return res.status(200)
-            .json({
-                status: 'success',
-                data: trips
-            })
+            return res.status(200)
+                .json({
+                    status: 'success',
+                    data: trips
+                })
+        } else {
+            return res.status(400).json({status:'error', data: "No trip available currently"})
         }
 
     }
