@@ -258,4 +258,27 @@ describe('# Bookings', function () {
         });
     });
   });
+
+  describe('GET view all bookings', function () {
+    it('Should view all if admin successfully', function (done) {
+      request
+        .get('/api/v1/bookings')
+        .end(function (err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+
+  describe('GET view all bookings by user_id', function () {
+    it('Should view all that belongs to user successfully', function (done) {
+      request
+        .get('/api/v1/bookings')
+        .end(function (err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+
 });

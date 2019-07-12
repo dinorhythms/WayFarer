@@ -24,10 +24,10 @@ class tripModel {
 
     }
 
-    static async getAllTrips(tripData){
+    static async getAllBookings(){
 
         try {
-            const query = `SELECT * FROM trips`;
+            const query = `SELECT * FROM bookings`;
 
             const result = await pool.query(query)
             if(result.rowCount > 0){
@@ -40,14 +40,14 @@ class tripModel {
 
     }
 
-    static async getTripById(trip_id){
+    static async getAllBookingsByUserId(user_id){
 
         try {
-            const query = `SELECT * FROM trips WHERE id='${trip_id}'`;
+            const query = `SELECT * FROM bookings WHERE user_id='${user_id}'`;
 
             const result = await pool.query(query)
             if(result.rowCount > 0){
-                return result.rows[0]
+                return result.rows
             }
             return null;
         } catch (error) {

@@ -32,7 +32,7 @@ class authController {
                 jwt.sign(
                     { id: newUser.id },
                     process.env.TOKEN_SECRET,
-                    { expiresIn: 3600 },
+                    { expiresIn: 86400000 },
                     (err, token) => {
                         if(err) throw err;
                         res.status(200).json({
@@ -71,7 +71,7 @@ class authController {
                 jwt.sign(
                     { id: user.id },
                     process.env.TOKEN_SECRET,
-                    { expiresIn: 3600 },
+                    { expiresIn: 86400000 },
                     (err, token) => {
                         if(err) throw err;
                         res.status(200).json({

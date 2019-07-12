@@ -24,7 +24,7 @@ class tripModel {
 
     }
 
-    static async getAllTrips(tripData){
+    static async getAllTrips(){
 
         try {
             const query = `SELECT * FROM trips`;
