@@ -25,7 +25,7 @@ function userRouteAuth(req, res, next) {
 
 export async function adminRouteAuth(req, res, next) {
 
-    const token = req.header('x-auth-token');
+    const token = req.header('x-access-token');
 
     // check for token
     if (!token){

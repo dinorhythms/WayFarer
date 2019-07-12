@@ -22,6 +22,7 @@ before(function (done) {
   DELETE FROM trips;
   DELETE FROM bookings;
   `
+  const query2 = `INSERT INTO buses (number_plate, manufacturer, model, year, capacity )VALUES ('BLY 201 IKT','toyota','Hilux','2006',11)`
   const result = pool.query(query)
   done();
 });
@@ -212,6 +213,23 @@ describe('# Authenticated User Token', function () {
           res.body.should.have.property('data');
           res.body.status.should.be.equal('error');
           res.body.data.should.be.equal('No token, authorization denied');
+          done();
+        });
+    });
+  });
+
+});
+
+describe('# Admin Only Creates Trips', function () {
+  this.timeout(10000)
+  describe('POST successful', function () {
+    it('Should be successfully', function (done) {
+      request
+        .post('/api/v1/trips')
+        .set('Accept', 'application/json')
+        .set('x-access-token', token)
+        .end(function (err, res) {
+          if (err) return done(err);
           done();
         });
     });
