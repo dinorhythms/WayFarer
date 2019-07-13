@@ -117,6 +117,22 @@ class tripModel {
 
     }
 
+    static async getTripsByOrigin(origin){
+
+        try {
+            const query = `SELECT * FROM trips WHERE origin ILIKE '%${origin}%'`;
+
+            const result = await pool.query(query)
+            if(result.rowCount > 0){
+                return result.rows[0]
+            }
+            return null;
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
 }
 
 export default tripModel;

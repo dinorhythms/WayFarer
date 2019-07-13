@@ -102,6 +102,24 @@ class tripController {
 
     }
 
+    static async filterTripsByOrigin(req,res){
+
+        const origin = req.params.origin;
+
+        const trips = await tripModel.getTripsByOrigin(origin)
+        //check trip
+        if(trips) {
+            return res.status(200)
+                .json({
+                    status: 'success',
+                    data: trips
+                })
+        } else {
+            return res.status(400).json({status:'error', data: `No trip with origin ${origin} available currently`})
+        }
+
+    }
+
 }
 
 export default tripController;
