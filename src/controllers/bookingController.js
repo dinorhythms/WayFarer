@@ -59,6 +59,31 @@ class tripController {
 
     }
 
+    static async getAllBookings(req,res){
+
+        //check if user is_admin = true
+        const user = await userModel.getUserById(req.user.id);
+
+        let bookings = null;
+        if(user.is_admin){
+            bookings = await bookingModel.getAllBookings()
+        } else {
+            bookings = await bookingModel.getAllBookingsByUserId(req.user.id)
+        }
+
+        //check bookings
+        if(bookings) {
+            return res.status(200)
+                .json({
+                    status: 'success',
+                    data: bookings
+                })
+        } else {
+            return res.status(400).json({status:'error', data: "No booking made"})
+        }
+
+    }
+
 }
 
 export default tripController;

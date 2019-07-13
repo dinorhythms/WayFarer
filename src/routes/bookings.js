@@ -15,6 +15,6 @@ bookings.post('/', userRouteAuth, bookingController.createBooking);
 // @desc    Get all bookings
 // @access  Private
 // @role    User
-// bookings.get('/', userRouteAuth, bookingController.getbookings);
+bookings.get('/', userRouteAuth, bookingController.getAllBookings);
 
 export default bookings;
