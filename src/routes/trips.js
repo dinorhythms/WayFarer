@@ -17,4 +17,10 @@ trips.post('/', adminRouteAuth, tripController.createTrip);
 // @role    Admin or User
 trips.get('/', userRouteAuth, tripController.getTrips);
 
+// @route   PATCH api/v1/trips/:tripId
+// @desc    cancel trip
+// @access  Private
+// @role    Admin 
+trips.patch('/:tripId', adminRouteAuth, tripController.cancelTrip);
+
 export default trips;

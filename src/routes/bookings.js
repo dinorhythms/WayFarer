@@ -14,7 +14,7 @@ bookings.post('/', userRouteAuth, bookingController.createBooking);
 // @route   GET api/v1/bookings
 // @desc    Get all bookings
 // @access  Private
-// @role    User
+// @role    User and Admin
 bookings.get('/', userRouteAuth, bookingController.getAllBookings);
 
 // @route   DELETE api/v1/booking/:bookingId

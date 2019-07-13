@@ -244,6 +244,17 @@ describe('# Trips', function () {
     });
   });
 
+  describe('PATCH admin cancelled trip successfully', function () {
+    it('Should be able to allow admin to cancel trips', function (done) {
+      request
+        .patch('/api/v1/trips/:tripId')
+        .end(function (err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+
 });
 
 describe('# Bookings', function () {

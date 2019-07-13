@@ -63,6 +63,27 @@ class tripController {
 
     }
 
+    static async cancelTrip(req,res){
+
+        const tripId = parseInt(req.params.tripId, 10);
+
+        if(!tripId ){
+            return res.status(400).json({status:'error', data: "Please pass a tripId"})
+        }
+
+        //get trip by id to check existence
+        const trip = await tripModel.getTripById(tripId)
+        if(!trip) return res.status(400).json({status:'error', data: "trip with Id: "+tripId+" cannot be found!"})
+
+        //update trip status to cancelled
+        const updatedTrip = await tripModel.updateTripStatus(tripId)
+
+        if(!updatedTrip) return res.status(400).json({status:'error', data: "trip with Id: "+tripId+" could not be updated, please try again!"})
+
+        return res.status(200).json({status:'success', data: {message : "Trip cancelled successfully"}})
+
+    }
+
 }
 
 export default tripController;

@@ -86,6 +86,21 @@ class tripModel {
         
     }
 
+    static async updateTripStatus(tripId){
+
+        try {
+            const query = `UPDATE trips SET status='cancelled' WHERE id = '${tripId}' RETURNING *`;
+            const result = await pool.query(query)
+            if(result.rowCount > 0){
+                return result.rows[0]
+            }
+            return null
+        } catch (error) {
+            throw error;
+        }
+        
+    }
+
 }
 
 export default tripModel;
