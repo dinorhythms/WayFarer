@@ -8,6 +8,7 @@ install:
 
 script:
   - npm run test
+  - npm run coverage
 cache:
   directories:
     - "node_modules"

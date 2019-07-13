@@ -17,13 +17,13 @@ bookings.post('/', userRouteAuth, bookingController.createBooking);
 // @role    User and Admin
 bookings.get('/', userRouteAuth, bookingController.getAllBookings);
 
-// @route   DELETE api/v1/booking/:bookingId
+// @route   DELETE api/v1/bookings/:bookingId
 // @desc    delete booking
 // @access  Private
 // @role    User
 bookings.delete('/:bookingId', userRouteAuth, bookingController.deleteBooking);
 
-// @route   POST api/v1/booking/changeseat
+// @route   POST api/v1/bookings/changeseat
 // @desc    change seat
 // @access  Private
 // @role    User
