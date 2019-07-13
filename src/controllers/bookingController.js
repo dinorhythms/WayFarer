@@ -21,7 +21,7 @@ class bookingController {
         //check if trip exists, capacity and active
         const trip = await tripModel.getTripById(trip_id)
         if(!trip) return res.status(400).json({status:'error', data: "Trip with id: "+trip_id+" does not exist"})
-        if(trip.status === "canceled") return res.status(400).json({status:'error', data: "Trip with id: "+trip_id+" is canceled"})
+        if(trip.status === "cancelled") return res.status(400).json({status:'error', data: "Trip with id: "+trip_id+" is canceled"})
         if(trip.capacity === trip.booked_seat) return res.status(400).json({status:'error', data: "Trip with id: "+trip_id+" has no seat available anymore"})
 
         const bookingData = {
@@ -90,7 +90,9 @@ class bookingController {
 
     static async deleteBooking(req, res){
         const bookingId = parseInt(req.params.bookingId, 10);
-
+        if(!bookingId ){
+            return res.status(400).json({status:'error', data: "Please pass a bookingId"})
+        }
         //check if booking owned by requested user exist
         const booking = await bookingModel.getBookingByBookingId(bookingId)
 
