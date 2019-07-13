@@ -99,7 +99,7 @@ class bookingController {
         if(!booking) return res.status(400).json({status:'error', data: "booking doesn't exist"})
 
         //compare req.user.id with booking user_id
-        if(booking.user_id != req.user.id) return res.status(400).json({status:'error', data: "Access denied, you don't have access to booking"})
+        if(booking.user_id != req.user.id) return res.status(400).json({status:'error', data: "Access denied, you don't have access to this booking"})
 
         //delete booking as requested by user
         const delBooking = await bookingModel.deleteBookingById(bookingId)
@@ -114,6 +114,42 @@ class bookingController {
             return res.status(400).json({status:'error', data: "Problem deleting booking, try again!"})
         }
 
+    }
+
+    static async changeSeat(req, res){
+
+        const { booking_id } = req.body;
+
+        if(!booking_id ){
+            return res.status(400).json({status:'error', data: "booking_id is required"})
+        }
+
+        //check if booking exists and belong to user
+        const booking = await bookingModel.getBookingByBookingId(booking_id)
+
+        if(!booking) return res.status(400).json({status:'error', data: "booking doesn't exist"})
+
+        //compare req.user.id with booking user_id
+        if(booking.user_id != req.user.id) return res.status(400).json({status:'error', data: "Access denied, you don't have access to this booking"})
+
+        //check if there is space in trip to replace
+        const trip = await tripModel.getTripById(booking.trip_id)
+        if(trip.capacity === trip.booked_seat) return res.status(400).json({status:'error', data: "Trip with id: "+trip_id+" has no seat available anymore"})
+
+        //update trip seats
+        const updatedTrip = await tripModel.updateTripSeat(booking.trip_id)
+
+        if(updatedTrip){
+            //update users booking seat
+            const newSeat = updatedTrip.booked_seat;
+            const updatedBooking = await bookingModel.updateBookingSeat(booking_id, newSeat)
+            if(updatedBooking){
+                return res.status(200).json({
+                    status: "success",
+                    data: {updatedBooking}
+                })
+            }
+        }
     }
 
 }

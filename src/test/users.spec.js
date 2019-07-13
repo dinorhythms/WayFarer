@@ -330,4 +330,15 @@ describe('# Bookings', function () {
     });
   });
 
+  describe('POST change seat', function () {
+    it('Should change users seat successfully', function (done) {
+      request
+        .post('/api/v1/bookings/changeseat')
+        .end(function (err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+
 });

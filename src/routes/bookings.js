@@ -23,4 +23,10 @@ bookings.get('/', userRouteAuth, bookingController.getAllBookings);
 // @role    User
 bookings.delete('/:bookingId', userRouteAuth, bookingController.deleteBooking);
 
+// @route   POST api/v1/booking/changeseat
+// @desc    change seat
+// @access  Private
+// @role    User
+bookings.post('/changeseat', userRouteAuth, bookingController.changeSeat);
+
 export default bookings;
