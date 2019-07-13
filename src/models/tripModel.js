@@ -101,6 +101,22 @@ class tripModel {
         
     }
 
+    static async getTripsByDestination(destination){
+
+        try {
+            const query = `SELECT * FROM trips WHERE destination ILIKE '%${destination}%'`;
+
+            const result = await pool.query(query)
+            if(result.rowCount > 0){
+                return result.rows[0]
+            }
+            return null;
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
 }
 
 export default tripModel;

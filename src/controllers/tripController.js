@@ -84,6 +84,24 @@ class tripController {
 
     }
 
+    static async filterTripsByDestination(req,res){
+
+        const destination = req.params.destination;
+
+        const trips = await tripModel.getTripsByDestination(destination)
+        //check trip
+        if(trips) {
+            return res.status(200)
+                .json({
+                    status: 'success',
+                    data: trips
+                })
+        } else {
+            return res.status(400).json({status:'error', data: `No trip with destination ${destination} available currently`})
+        }
+
+    }
+
 }
 
 export default tripController;
