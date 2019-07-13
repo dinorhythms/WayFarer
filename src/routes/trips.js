@@ -17,6 +17,12 @@ trips.post('/', adminRouteAuth, tripController.createTrip);
 // @role    Admin or User
 trips.get('/', userRouteAuth, tripController.getTrips);
 
+// @route   GET api/v1/trips/destination/:destination
+// @desc    Get all filtered trips
+// @access  Private
+// @role    Admin or User
+trips.get('/destination/:destination', userRouteAuth, tripController.filterTripsByDestination);
+
 // @route   PATCH api/v1/trips/:tripId
 // @desc    cancel trip
 // @access  Private

@@ -28,7 +28,12 @@ before(function (done) {
 });
 
 describe('# User Signup POST', function () {
+  
   this.timeout(10000)
+
+  const query = `DELETE FROM users;`
+  const result = pool.query(query)
+
   describe('POST sign up successful', function () {
     it('Should sign up successful', function (done) {
       request
@@ -248,6 +253,28 @@ describe('# Trips', function () {
     it('Should be able to allow admin to cancel trips', function (done) {
       request
         .patch('/api/v1/trips/:tripId')
+        .end(function (err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+
+  describe('GET destination filter trips', function () {
+    it('Should be able to allow users filter trips by destination', function (done) {
+      request
+        .patch('/api/v1/trips/destination/:destination')
+        .end(function (err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+
+  describe('GET origin filter trips', function () {
+    it('Should be able to allow users filter trips by origin', function (done) {
+      request
+        .patch('/api/v1/trips/origin/:origin')
         .end(function (err, res) {
           if (err) return done(err);
           done();
