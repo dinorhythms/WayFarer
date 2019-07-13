@@ -3,7 +3,7 @@ import tripModel from '../models/tripModel';
 import bookingModel from '../models/bookingModel';
 import userModel from '../models/userModel';
 
-class tripController {
+class bookingController {
 
     constructor(){
         dotenv.config();
@@ -13,6 +13,10 @@ class tripController {
 
         const { trip_id } = req.body;
         const { id } = req.user;
+
+        if(!trip_id ){
+            return res.status(400).json({status:'error', data: "All fields are required, pass a trip_id"})
+        }
 
         //check if trip exists, capacity and active
         const trip = await tripModel.getTripById(trip_id)
@@ -84,6 +88,32 @@ class tripController {
 
     }
 
+    static async deleteBooking(req, res){
+        const bookingId = parseInt(req.params.bookingId, 10);
+
+        //check if booking owned by requested user exist
+        const booking = await bookingModel.getBookingByBookingId(bookingId)
+
+        if(!booking) return res.status(400).json({status:'error', data: "booking doesn't exist"})
+
+        //compare req.user.id with booking user_id
+        if(booking.user_id != req.user.id) return res.status(400).json({status:'error', data: "Access denied, you don't have access to booking"})
+
+        //delete booking as requested by user
+        const delBooking = await bookingModel.deleteBookingById(bookingId)
+
+        if(delBooking) {
+            //minus from trip seat to give room to another booking
+            const updatedTrip = await tripModel.updateTripSeatMinus(delBooking.trip_id)
+
+            if(updatedTrip) return res.status(200).json({status:'success', data: { message: "Booking deleted successfully" }})
+
+        } else {
+            return res.status(400).json({status:'error', data: "Problem deleting booking, try again!"})
+        }
+
+    }
+
 }
 
-export default tripController;
+export default bookingController;

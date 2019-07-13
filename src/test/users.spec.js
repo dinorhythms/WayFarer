@@ -15,7 +15,7 @@ const pool = new Pool({ connectionString: process.env.TEST_DB_URL });
 let token = '';
 
 before(function (done) {
-  // this.timeout(10000)
+  this.timeout(10000)
   const query = `
   DELETE FROM users;
   DELETE FROM buses;
@@ -274,6 +274,17 @@ describe('# Bookings', function () {
     it('Should view all that belongs to user successfully', function (done) {
       request
         .get('/api/v1/bookings')
+        .end(function (err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+
+  describe('DELETE delete user Booking', function () {
+    it('Should delete successfully', function (done) {
+      request
+        .delete('/api/v1/bookings/:bookingId')
         .end(function (err, res) {
           if (err) return done(err);
           done();

@@ -71,6 +71,21 @@ class tripModel {
         
     }
 
+    static async updateTripSeatMinus(trip_id){
+
+        try {
+            const query = `UPDATE trips SET booked_seat=booked_seat-1 WHERE id = '${trip_id}' RETURNING *`;
+            const result = await pool.query(query)
+            if(result.rowCount > 0){
+                return result.rows[0]
+            }
+            return null
+        } catch (error) {
+            throw error;
+        }
+        
+    }
+
 }
 
 export default tripModel;
