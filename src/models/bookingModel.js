@@ -96,6 +96,21 @@ class bookingModel {
 
     }
 
+    static async updateBookingSeat(booking_id, newSeat){
+
+        try {
+            const query = `UPDATE bookings SET seat_number='${newSeat}' WHERE id = '${booking_id}' RETURNING *`;
+            const result = await pool.query(query)
+            if(result.rowCount > 0){
+                return result.rows[0]
+            }
+            return null
+        } catch (error) {
+            throw error;
+        }
+        
+    }
+
 }
 
 export default bookingModel;
