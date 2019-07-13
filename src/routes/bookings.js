@@ -17,4 +17,10 @@ bookings.post('/', userRouteAuth, bookingController.createBooking);
 // @role    User
 bookings.get('/', userRouteAuth, bookingController.getAllBookings);
 
+// @route   DELETE api/v1/booking/:bookingId
+// @desc    delete booking
+// @access  Private
+// @role    User
+bookings.delete('/:bookingId', userRouteAuth, bookingController.deleteBooking);
+
 export default bookings;
