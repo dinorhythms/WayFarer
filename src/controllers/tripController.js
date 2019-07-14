@@ -20,14 +20,14 @@ class tripController {
         //check if bus_id is valid and available
         const bus = await busModel.getBusById(bus_id);
         //check if bus id exist
-        if(!bus) return res.status(400).json({status:'error', error: "The selected bus_id: "+bus_id+" does not exist"})
+        if(!bus) return res.status(400).json({status:'error', error: "The select bus_id: "+bus_id+" does not exist"})
         //check if bus is available
-        // if(bus.available !== 1) return res.status(400).json({status:'error', error: "The select bus "+bus.number_plate+" is not available for trip selection"})
+        if(bus.available !== 1) return res.status(400).json({status:'error', error: "The select bus "+bus.number_plate+" is not available for trip selection"})
         //create trip
         const tripData = {bus_id, origin, destination, trip_date, fare, capacity: bus.capacity, status: 'active' }
         const trip = await tripModel.createTrip(tripData)
         //update bus as not available again until after trip
-        // const tripBus = await busModel.updateBusAvailability(bus_id)
+        const tripBus = await busModel.updateBusAvailability(bus_id)
         //check trip
         if(trip && tripBus) {
         return res.status(200)
