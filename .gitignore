@@ -1,3 +1,9 @@
 node_modules
 
 .env
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# nyc output
+.nyc_output

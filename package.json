@@ -1,8 +1,8 @@
 {
   "name": "WayFarer",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "WayFarer is a public bus transportation booking server.",
+  "main": "src/app.js",
   "scripts": {
     "test": "nyc --reporter=html --reporter=text --timeout=10000 cross-env NODE_ENV=test mocha --require @babel/register --recursive ./src/test --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
@@ -13,8 +13,8 @@
     "start:dev": "nodemon --exec babel-node src/app.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Oladehinde Kazeem",
+  "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "bcryptjs": "^2.4.3",
@@ -22,11 +22,11 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
+    "express-validator": "^6.1.1",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
     "pg": "^7.11.0",
-    "swagger-ui-express": "^4.0.7",
-    "validatorjs": "^3.15.1"
+    "swagger-ui-express": "^4.0.7"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.0",
