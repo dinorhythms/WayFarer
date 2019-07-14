@@ -13,12 +13,12 @@ class authController {
     static async signUp(req,res){
         const { email, first_name, last_name, password } = req.body;
         if(!email || !first_name || !last_name || !password ){
-            return res.status(400).json({status:'error', data: "All fields are required"})
+            return res.status(400).json({status:'error', error: "All fields are required"})
         }
 
         //check if user exists
         const user = await userModel.getUserByEmail(email);
-        if(user) return res.status(400).json({status:'error', data: "User exist already, use a different email"})
+        if(user) return res.status(400).json({status:'error', error: "User exist already, use a different email"})
         
         // hash password before registration
         bcrypt.genSalt(10, async (err, salt)=>{
@@ -56,17 +56,17 @@ class authController {
     static async signIn(req,res){
         const { email, password } = req.body;
         if(!email || !password ){
-            return res.status(400).json({status:'error', data: "All fields are required"})
+            return res.status(400).json({status:'error', error: "All fields are required"})
         }
 
         //check if user exists
         const user = await userModel.getUserByEmail(email);
-        if(!user) return res.status(400).json({status:'error', data: "User does not exist"})
+        if(!user) return res.status(400).json({status:'error', error: "User does not exist"})
         
         //validate the password
         bcrypt.compare(password, user.password)
             .then(isMatch => {
-                if(!isMatch) return res.status(400).json({status:'error', data: "Invalid Credentials"})
+                if(!isMatch) return res.status(400).json({status:'error', error: "Invalid Credentials"})
                 
                 jwt.sign(
                     { id: user.id },

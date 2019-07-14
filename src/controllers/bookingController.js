@@ -15,14 +15,14 @@ class bookingController {
         const { id } = req.user;
 
         if(!trip_id ){
-            return res.status(400).json({status:'error', data: "All fields are required, pass a trip_id"})
+            return res.status(400).json({status:'error', error: "All fields are required, pass a trip_id"})
         }
 
         //check if trip exists, capacity and active
         const trip = await tripModel.getTripById(trip_id)
-        if(!trip) return res.status(400).json({status:'error', data: "Trip with id: "+trip_id+" does not exist"})
-        if(trip.status === "cancelled") return res.status(400).json({status:'error', data: "Trip with id: "+trip_id+" is canceled"})
-        if(trip.capacity === trip.booked_seat) return res.status(400).json({status:'error', data: "Trip with id: "+trip_id+" has no seat available anymore"})
+        if(!trip) return res.status(400).json({status:'error', error: "Trip with id: "+trip_id+" does not exist"})
+        if(trip.status === "cancelled") return res.status(400).json({status:'error', error: "Trip with id: "+trip_id+" is canceled"})
+        if(trip.capacity === trip.booked_seat) return res.status(400).json({status:'error', error: "Trip with id: "+trip_id+" has no seat available anymore"})
 
         const bookingData = {
             trip_id,
@@ -58,7 +58,7 @@ class bookingController {
                     })
             }
         }else{
-            return  res.status(400).json({status:'error', data: "Something went wrong during process, please try again"})
+            return  res.status(400).json({status:'error', error: "Something went wrong during process, please try again"})
         }
 
     }
@@ -83,7 +83,7 @@ class bookingController {
                     data: bookings
                 })
         } else {
-            return res.status(400).json({status:'error', data: "No booking made"})
+            return res.status(400).json({status:'error', error: "No booking made"})
         }
 
     }
@@ -91,15 +91,15 @@ class bookingController {
     static async deleteBooking(req, res){
         const bookingId = parseInt(req.params.bookingId, 10);
         if(!bookingId ){
-            return res.status(400).json({status:'error', data: "Please pass a bookingId"})
+            return res.status(400).json({status:'error', error: "Please pass a bookingId"})
         }
         //check if booking owned by requested user exist
         const booking = await bookingModel.getBookingByBookingId(bookingId)
 
-        if(!booking) return res.status(400).json({status:'error', data: "booking doesn't exist"})
+        if(!booking) return res.status(400).json({status:'error', error: "booking doesn't exist"})
 
         //compare req.user.id with booking user_id
-        if(booking.user_id != req.user.id) return res.status(400).json({status:'error', data: "Access denied, you don't have access to this booking"})
+        if(booking.user_id != req.user.id) return res.status(400).json({status:'error', error: "Access denied, you don't have access to this booking"})
 
         //delete booking as requested by user
         const delBooking = await bookingModel.deleteBookingById(bookingId)
@@ -111,7 +111,7 @@ class bookingController {
             if(updatedTrip) return res.status(200).json({status:'success', data: { message: "Booking deleted successfully" }})
 
         } else {
-            return res.status(400).json({status:'error', data: "Problem deleting booking, try again!"})
+            return res.status(400).json({status:'error', error: "Problem deleting booking, try again!"})
         }
 
     }
@@ -121,20 +121,20 @@ class bookingController {
         const { booking_id } = req.body;
 
         if(!booking_id ){
-            return res.status(400).json({status:'error', data: "booking_id is required"})
+            return res.status(400).json({status:'error', error: "booking_id is required"})
         }
 
         //check if booking exists and belong to user
         const booking = await bookingModel.getBookingByBookingId(booking_id)
 
-        if(!booking) return res.status(400).json({status:'error', data: "booking doesn't exist"})
+        if(!booking) return res.status(400).json({status:'error', error: "booking doesn't exist"})
 
         //compare req.user.id with booking user_id
-        if(booking.user_id != req.user.id) return res.status(400).json({status:'error', data: "Access denied, you don't have access to this booking"})
+        if(booking.user_id != req.user.id) return res.status(400).json({status:'error', error: "Access denied, you don't have access to this booking"})
 
         //check if there is space in trip to replace
         const trip = await tripModel.getTripById(booking.trip_id)
-        if(trip.capacity === trip.booked_seat) return res.status(400).json({status:'error', data: "Trip with id: "+trip_id+" has no seat available anymore"})
+        if(trip.capacity === trip.booked_seat) return res.status(400).json({status:'error', error: "Trip with id: "+trip_id+" has no seat available anymore"})
 
         //update trip seats
         const updatedTrip = await tripModel.updateTripSeat(booking.trip_id)
