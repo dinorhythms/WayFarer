@@ -37,6 +37,7 @@ app.use(function(err, req, res, next) {
     if(err.status == 404)   res.redirect('/notFound')
 })
 
+// port
 const port = parseInt(process.env.PORT, 10) || 4000;
 
 if(!module.parent){ 
