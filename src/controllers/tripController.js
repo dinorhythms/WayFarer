@@ -27,9 +27,9 @@ class tripController {
         const tripData = {bus_id, origin, destination, trip_date, fare, capacity: bus.capacity, status: 'active' }
         const trip = await tripModel.createTrip(tripData)
         //update bus as not available again until after trip
-        const tripBus = await busModel.updateBusAvailability(bus_id)
+        //const tripBus = await busModel.updateBusAvailability(bus_id)
         //check trip
-        if(trip && tripBus) {
+        if(trip) {
         return res.status(200)
             .json({
                 status: 'success',
