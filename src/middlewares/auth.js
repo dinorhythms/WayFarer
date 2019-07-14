@@ -21,13 +21,20 @@ function userRouteAuth(req, res, next) {
             req.user = decoded;
             next();
         } catch (error) {
+            if (errors.name === 'TokenExpiredError') {
+                return res.status(409).json({
+                  status: 'error',
+                  error: 'Token Expired, please login',
+                });
+            }
             res.status(401).json({ status: 'error', error: "Invalid token, authorization denied" });
+
         }
     }
 }
 
 export async function adminRouteAuth(req, res, next) {
-
+  
     let { token } = req.headers;
     if(req.headers.authorization && !token) token = req.headers.authorization.split(' ')[1];
     if(req.body.token && !token) token = req.body.token;
@@ -48,6 +55,12 @@ export async function adminRouteAuth(req, res, next) {
             req.user = decoded;
             next();
         } catch (error) {
+            if (errors.name === 'TokenExpiredError') {
+                return res.status(409).json({
+                  status: 'error',
+                  error: 'Token Expired, please login',
+                });
+            }
             res.status(401).json({ status: 'error', error: "Invalid token, authorization denied for route" });
         }
     }
