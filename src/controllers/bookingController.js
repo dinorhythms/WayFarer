@@ -43,6 +43,7 @@ class bookingController {
                     .json({
                         status: 'success',
                         data: {
+                            id: booking.id,
                             booking_id: booking.id,
                             user_id: booking.user_id,
                             trip_id: booking.trip_id,
