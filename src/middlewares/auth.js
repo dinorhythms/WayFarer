@@ -5,11 +5,14 @@ import userModel from '../models/userModel';
 dotenv.config()
 
 function userRouteAuth(req, res, next) {
-    const token = req.header('x-access-token');
+
+    let { token } = req.headers;
+    if(req.headers.authorization && !token) token = req.headers.authorization.split(' ')[1];
+    if(req.body.token && !token) token = req.body.token;
 
     //check for token
     if (!token){
-        res.status(401).json({ status: 'error', data: "No token, authorization denied" });
+        res.status(401).json({ status: 'error', error: "No token, authorization denied" });
     } else {
         try {
             //verify token
@@ -18,18 +21,20 @@ function userRouteAuth(req, res, next) {
             req.user = decoded;
             next();
         } catch (error) {
-            res.status(401).json({ status: 'error', data: "Invalid token, authorization denied" });
+            res.status(401).json({ status: 'error', error: "Invalid token, authorization denied" });
         }
     }
 }
 
 export async function adminRouteAuth(req, res, next) {
 
-    const token = req.header('x-access-token');
+    let { token } = req.headers;
+    if(req.headers.authorization && !token) token = req.headers.authorization.split(' ')[1];
+    if(req.body.token && !token) token = req.body.token;
 
     // check for token
     if (!token){
-         res.status(401).json({ status: 'error', data: "No token, authorization denied" });
+         res.status(401).json({ status: 'error', error: "No token, authorization denied" });
     } else {
         try {
             //verify token
@@ -43,7 +48,7 @@ export async function adminRouteAuth(req, res, next) {
             req.user = decoded;
             next();
         } catch (error) {
-            res.status(401).json({ status: 'error', data: "Invalid token, authorization denied for route" });
+            res.status(401).json({ status: 'error', error: "Invalid token, authorization denied for route" });
         }
     }
 
