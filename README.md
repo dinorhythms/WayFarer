@@ -8,7 +8,7 @@
 This is an api backend for public bus transportation booking. It is created to give free and open access to the public to have a good and well managed transport system. The backend server is persist with a postgreSQL database.
 The endpoints are to be secured with JSON Web Token (JWT).
 
-[Documentation](https://dinorhythms-wayfarer.herokuapp.com)_
+[Documentation](https://dinorhythms-wayfarer.herokuapp.com/api-docs)_
 
 Here's are the available features:
 * User can sign up.
@@ -75,14 +75,14 @@ TOKEN_SECRET = 'ENTER YOUR SECRET FOR JWT TOKEN';
 
 * Signup
 ```sh
-POST /api/v1/auth/signup
+POST https://dinorhythms-wayfarer.herokuapp.com/api/v1/auth/signup
 ```
 * Signin
 ```sh
-POST /api/v1/auth/signin
+POST https://dinorhythms-wayfarer.herokuapp.com/api/v1/auth/signin
 ```
 
-_For more examples, please refer to the [Documentation](https://dinorhythms-wayfarer.herokuapp.com)_
+_For more examples, please refer to the [Documentation](https://dinorhythms-wayfarer.herokuapp.com/api-docs)_
 
 ## Roadmap
 

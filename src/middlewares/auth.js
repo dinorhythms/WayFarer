@@ -5,7 +5,7 @@ import userModel from '../models/userModel';
 dotenv.config()
 
 function userRouteAuth(req, res, next) {
-    const token = req.header('x-access-token');
+    const token = req.header('x-access-token') || req.headers.authorization || req.body.token;
 
     //check for token
     if (!token){
@@ -18,6 +18,12 @@ function userRouteAuth(req, res, next) {
             req.user = decoded;
             next();
         } catch (error) {
+            if (errors.name === 'TokenExpiredError') {
+                return res.status(409).json({
+                  status: 'error',
+                  error: 'Token Expired, please login',
+                });
+            }
             res.status(401).json({ status: 'error', data: "Invalid token, authorization denied" });
         }
     }
@@ -25,7 +31,7 @@ function userRouteAuth(req, res, next) {
 
 export async function adminRouteAuth(req, res, next) {
 
-    const token = req.header('x-access-token');
+    const token = req.header('x-access-token') || req.headers.authorization || req.body.token;
 
     // check for token
     if (!token){
@@ -43,6 +49,12 @@ export async function adminRouteAuth(req, res, next) {
             req.user = decoded;
             next();
         } catch (error) {
+            if (errors.name === 'TokenExpiredError') {
+                return res.status(409).json({
+                  status: 'error',
+                  error: 'Token Expired, please login',
+                });
+            }
             res.status(401).json({ status: 'error', data: "Invalid token, authorization denied for route" });
         }
     }
