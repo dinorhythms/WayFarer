@@ -34,7 +34,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-    if(err.status == 404)   res.redirect('/notFound')
+    if(err.status == 404)   res.redirect('/api-docs')
 })
 
 const port = parseInt(process.env.PORT, 10) || 4000;
