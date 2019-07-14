@@ -18,12 +18,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//cors
 app.use(cors());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/v1', v1);
 
-app.use('/notFound',(req,res)=>res.send("Not found, please check your request"))
+app.use('/notFound',(req,res)=>res.send("Not found, please check /api-docs for documentations"))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -34,9 +35,10 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-    if(err.status == 404)   res.redirect('/api-docs')
+    if(err.status == 404)   res.redirect('/notFound')
 })
 
+// port
 const port = parseInt(process.env.PORT, 10) || 4000;
 
 if(!module.parent){ 
