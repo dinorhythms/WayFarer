@@ -34,6 +34,7 @@ class tripController {
             .json({
                 status: 'success',
                 data: {
+                    id:trip.id,
                     trip_id: trip.id,
                     bus_id: trip.bus_id,
                     origin: trip.origin,
