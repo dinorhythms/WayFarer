@@ -2,13 +2,15 @@ import express from 'express';
 import tripController from '../controllers/tripController';
 import userRouteAuth, { adminRouteAuth } from '../middlewares/auth';
 
+import { createTripValidator, signinValidatorFn } from '../middlewares/validators'
+
 const trips = express.Router();
 
 // @route   POST api/v1/trips
 // @desc    Create trip
 // @access  Private
 // @role    Admin only
-trips.post('/', adminRouteAuth, tripController.createTrip);
+trips.post('/', adminRouteAuth, [createTripValidator, signinValidatorFn] , tripController.createTrip);
 
 
 // @route   GET api/v1/trips

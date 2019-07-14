@@ -18,7 +18,7 @@ class authController {
 
         //check if user exists
         const user = await userModel.getUserByEmail(email);
-        if(user) return res.status(400).json({status:'error', data: "User exist already"})
+        if(user) return res.status(400).json({status:'error', data: "User exist already, use a different email"})
         
         // hash password before registration
         bcrypt.genSalt(10, async (err, salt)=>{
