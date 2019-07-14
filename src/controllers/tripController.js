@@ -29,7 +29,8 @@ class tripController {
         //update bus as not available again until after trip
         // const tripBus = await busModel.updateBusAvailability(bus_id)
         //check trip
-        if(trip && tripBus) {
+        // if(trip && tripBus) {
+        if(trip) {
         return res.status(200)
             .json({
                 status: 'success',
