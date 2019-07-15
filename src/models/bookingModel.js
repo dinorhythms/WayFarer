@@ -2,7 +2,12 @@ import { Pool, Client } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const pool = new Pool({ connectionString:process.env.DB_URL });
+
+let pool = new Pool({ connectionString:process.env.DB_URL });
+
+if(process.env.NODE_ENV === 'test'){
+    pool = new Pool({ connectionString:process.env.TEST_DB_URL });
+}
 
 class bookingModel {
 

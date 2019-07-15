@@ -11,7 +11,7 @@ class authController {
     }
 
     static async signUp(req,res){
-        const { email, first_name, last_name, password } = req.body;
+        const { email, first_name, last_name, password, is_admin } = req.body;
         if(!email || !first_name || !last_name || !password ){
             return res.status(400).json({status:'error', error: "All fields are required"})
         }
@@ -27,7 +27,7 @@ class authController {
                 const newPassword = hash
                 
                 //register user
-                const newUser = await userModel.signUp({email, first_name, last_name, newPassword});
+                const newUser = await userModel.signUp({email, first_name, last_name, newPassword, is_admin});
                 // create Token
                 jwt.sign(
                     { id: newUser.id },

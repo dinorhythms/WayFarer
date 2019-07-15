@@ -4,7 +4,7 @@
   "description": "WayFarer is a public bus transportation booking server.",
   "main": "src/app.js",
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text --timeout=10000 cross-env NODE_ENV=test mocha --require @babel/register --recursive ./src/test --exit",
+    "test": "nyc --reporter=html --reporter=text cross-env NODE_ENV=test mocha --require @babel/register --recursive ./src/test --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "build": "babel src --out-dir dist --copy-files",
     "clean": "rm -rf dist && mkdir dist",

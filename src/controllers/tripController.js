@@ -11,8 +11,6 @@ class tripController {
     static async createTrip(req,res){
         const { token, bus_id, origin, destination, trip_date, fare } = req.body;
 
-        // return res.status(200).json({data: req.body})
-
         if(!bus_id || !origin || !destination || !trip_date || !fare ){
             return res.status(400).json({status:'error', error: "All fields are required"})
         }

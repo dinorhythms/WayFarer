@@ -21,7 +21,7 @@ function userRouteAuth(req, res, next) {
             req.user = decoded;
             next();
         } catch (error) {
-            if (errors.name === 'TokenExpiredError') {
+            if (error.name === 'TokenExpiredError') {
                 return res.status(409).json({
                   status: 'error',
                   error: 'Token Expired, please login',
@@ -55,7 +55,7 @@ export async function adminRouteAuth(req, res, next) {
             req.user = decoded;
             next();
         } catch (error) {
-            if (errors.name === 'TokenExpiredError') {
+            if (error.name === 'TokenExpiredError') {
                 return res.status(409).json({
                   status: 'error',
                   error: 'Token Expired, please login',
