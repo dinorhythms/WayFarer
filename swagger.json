@@ -1,172 +1,552 @@
 {
-    "swagger" : "2.0",
-    "info" : {
-      "description" : "WayFarer is a public bus transportation booking server back-end API.  You can find \nout more about Swagger at \n[https://github.com/dinorhythms/WayFarer](https://github.com/dinorhythms/WayFarer).\n",
-      "version" : "1.0.0",
-      "title" : "WayFarer API",
-      "contact" : {
-        "email" : "larrysnet2001@gmail.com"
+  "swagger": "2.0",
+  "info": {
+    "description": "Wayfarer API is an API for a public bus transportation\n",
+    "version": "1.0.0",
+    "title": "Wayfarer API"
+  },
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Create user",
+        "description": "First time signup to have access to the endpoint",
+        "operationId": "createAUser",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Creates user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User exist already, use a different email"
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login user",
+        "description": "Credentials needed to gain access to the backend.",
+        "operationId": "loginAUser",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "email, password",
+            "description": "Logged in user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Signin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User does not exist"
+          }
+        }
+      }
+    },
+    "/trips": {
+      "post": {
+        "tags": [
+          "trips"
+        ],
+        "summary": "Create a new trip",
+        "description": "Admin create a new trip for passengers.",
+        "operationId": "createATrip",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "A new trip object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Trip"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
-      "license" : {
-        "name" : "MIT",
-        "url" : "https://opensource.org/licenses/MIT"
+      "get": {
+        "tags": [
+          "trips"
+        ],
+        "summary": "filter trips by origin or destination",
+        "description": "User can get all trips by filter.",
+        "operationId": "getAllTrips",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "origin",
+            "in": "query",
+            "description": "origin of specified trip",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "destination",
+            "in": "query",
+            "description": "destination of specified trip",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
-    "host" : "virtserver.swaggerhub.com",
-    "basePath" : "/dinorhythms/WayFarer/1.0.0",
-    "tags" : [ {
-      "name" : "pet",
-      "description" : "Everything about your Pets",
-      "externalDocs" : {
-        "description" : "Find out more",
-        "url" : "http://swagger.io"
-      }
-    }, {
-      "name" : "store",
-      "description" : "Access to Petstore orders"
-    }, {
-      "name" : "user",
-      "description" : "Operations about user",
-      "externalDocs" : {
-        "description" : "Find out more about our store",
-        "url" : "http://swagger.io"
-      }
-    } ],
-    "schemes" : [ "https", "http" ],
-    "paths": {
-        "/users": {
-            "post": {
-                "tags": [
-                    "Users"
-                ],
-                "description": "Create new user in system",
-                "parameters": [
-                    {
-                        "name": "user",
-                        "in": "body",
-                        "description": "User that we want to create",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "New user is created",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    }
-                }
-            },
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Get all users in system",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        }
-                    }
-                }
+    "/trips/": {
+      "get": {
+        "tags": [
+          "trips"
+        ],
+        "summary": "Get all trips",
+        "description": "Returns all trips",
+        "operationId": "getTripById",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "trip_id",
+            "in": "path",
+            "description": "ID of trip to return",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Trip"
             }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          }
         },
-        "/users/{userId}": {
-            "parameters": [
-                {
-                    "name": "userId",
-                    "in": "path",
-                    "required": true,
-                    "description": "ID of user that we want to find",
-                    "type": "string"
-                }
-            ],
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Get user with given ID",
-                "responses": {
-                    "200": {
-                        "description": "User is found",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Delete user with given ID",
-                "tags": [
-                    "Users"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User is deleted",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "summary": "Update user with give ID",
-                "tags": [
-                    "Users"
-                ],
-                "parameters": [
-                    {
-                        "name": "user",
-                        "in": "body",
-                        "description": "User with new values of properties",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User is updated",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    }
-                }
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "trips"
+        ],
+        "summary": "Cancel atrip by ID",
+        "description": "Returns a single cancelled trip",
+        "operationId": "patchTripById",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "trip_id",
+            "in": "path",
+            "description": "ID of trip to cancel",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Trip"
             }
-        }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
     },
-    "definitions": {
-        "User": {
-            "required": [
-                "email",
-                "_id"
-            ],
-            "properties": {
-                "_id": {
-                    "type": "string",
-                    "uniqueItems": true
-                },
-                "email": {
-                    "type": "string",
-                    "uniqueItems": true
-                },
-                "lastName": {
-                    "type": "string"
-                },
-                "firstName": {
-                    "type": "string"
-                }
+    "/buses": {
+      "post": {
+        "tags": [
+          "buses"
+        ],
+        "summary": "Register a new bus",
+        "description": "Admin can register a new bus.",
+        "operationId": "registerABus",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "A new trip object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Bus"
             }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
         },
-        "Users": {
-            "type": "array",
-            "$ref": "#/definitions/User"
-        }
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "buses"
+        ],
+        "summary": "Get all buses",
+        "description": "User can retrieve all buses.",
+        "operationId": "retrieveBuses",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/buses/{bus_id}": {
+      "get": {
+        "tags": [
+          "buses"
+        ],
+        "summary": "Find bus by ID",
+        "description": "Returns a single bus",
+        "operationId": "getBusById",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "bus_id",
+            "in": "path",
+            "description": "ID of bus to return",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Bus"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/bookings": {
+      "post": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Make a booking",
+        "description": "User can make a booking.",
+        "operationId": "makeABooking",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "A new trip object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Booking"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Get bookings",
+        "description": "User can make request to get his/her bookings.",
+        "operationId": "getBooking",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/bookings/{booking_id}": {
+      "delete": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Delete a booking",
+        "description": "User can delete his booking.",
+        "operationId": "deleteABooking",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "booking_id",
+            "in": "path",
+            "description": "ID of booking to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
     }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Booking": {
+      "type": "object",
+      "properties": {
+        "trip_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "created_on": {
+          "type": "integer",
+          "format": "date-time"
+        },
+        "seat_number": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "Category"
+      }
+    },
+    "Auth": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Auth"
+      }
+    },
+    "Signin": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Auth"
+      }
+    },
+    "Trip": {
+      "type": "object",
+      "properties": {
+        "bus_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "book_seat": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "fare": {
+          "type": "number",
+          "format": "float"
+        },
+        "capacity": {
+          "type": "number",
+          "format": "float"
+        },
+        "origin": {
+          "type": "string"
+        },
+        "destination": {
+          "type": "string"
+        },
+        "trip_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Trip"
+      }
+    },
+    "Bus": {
+      "type": "object",
+      "properties": {
+        "number_plate": {
+          "type": "string"
+        },
+        "manufacturer": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "year": {
+          "type": "string"
+        },
+        "capacity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "available": {
+          "type": "number"
+        }
+      },
+      "xml": {
+        "name": "Bus"
+      }
+    }
+  },
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "host": "dinorhythms-wayfarer.herokuapp.com",
+  "basePath": "/api/v1"
 }

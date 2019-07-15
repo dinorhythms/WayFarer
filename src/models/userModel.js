@@ -42,10 +42,10 @@ class userModel {
     static async signUp(userData){
 
         try {
-            const { email, first_name, last_name, newPassword } = userData;
+            const { email, first_name, last_name, newPassword, is_admin=false } = userData;
             const query = `INSERT INTO users (email, first_name, last_name, password, is_admin ) VALUES ($1, $2, $3, $4, $5) RETURNING id, email, first_name, last_name, is_admin`;
 
-            const result = await pool.query(query, [email, first_name, last_name, newPassword, false])
+            const result = await pool.query(query, [email, first_name, last_name, newPassword, is_admin])
             if(result.rowCount > 0){
                 return result.rows[0]
             }

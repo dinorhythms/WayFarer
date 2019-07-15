@@ -4,6 +4,8 @@
 
 [![Build Status](https://travis-ci.org/dinorhythms/WayFarer.svg?branch=develop)](https://travis-ci.org/dinorhythms/WayFarer)
 [![Coverage Status](https://coveralls.io/repos/github/dinorhythms/WayFarer/badge.svg?branch=develop)](https://coveralls.io/github/dinorhythms/WayFarer?branch=develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/0af4a88329f6edcf4177/maintainability)](https://codeclimate.com/github/dinorhythms/WayFarer/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/0af4a88329f6edcf4177/test_coverage)](https://codeclimate.com/github/dinorhythms/WayFarer/test_coverage)
 
 This is an api backend for public bus transportation booking. It is created to give free and open access to the public to have a good and well managed transport system. The backend server is persist with a postgreSQL database.
 The endpoints are to be secured with JSON Web Token (JWT).
@@ -70,6 +72,39 @@ DB_URL = 'ENTER YOUR DB CONNECT STRING FROM ELEPHANTSQL.COM';
 ```JS
 TOKEN_SECRET = 'ENTER YOUR SECRET FOR JWT TOKEN';
 ```
+
+### Run Test
+
+```
+npm run test
+```
+### API End Points Test Using Postman
+
+<table>
+<tr><th>HTTP VERB</th><th>ENDPOINT</th><th>FUNCTIONALITY</th></tr>
+
+<tr><td>POST</td> <td>/api/v1/auth/signup</td>  <td>User can signup</td></tr>
+
+<tr><td>POST</td> <td>/api/v1/auth/login</td>  <td>User can signin</td></tr>
+
+<tr><td>POST</td> <td>/api/v1/trips</td>  <td>Admin can create a trip</td></tr>
+
+<tr><td>POST</td> <td>/api/v1/bookings</td>  <td>Users can book a seat on a trip</td></tr>
+
+<tr><td>GET</td> <td>/api/v1/trips</td>  <td>Users and Admin can view all trips</td></tr>
+
+<tr><td>GET</td> <td>/api/v1/trips/destination/NAME_OF_DESTINATION</td>  <td>Users can view trips by destination</td></tr>
+
+<tr><td>GET</td> <td>/api/v1/trips/origin/NAME_OF_ORIGIN</td>  <td>Users can view trips by origin</td></tr>
+
+<tr><td>GET</td> <td>/api/v1/bookings</td>  <td>Admin can view all bookings, Users can view their own bookings</td></tr>
+
+<tr><td>PATCH</td> <td>/api/v1/trips/:tripId</td>  <td>Admin can cancel a trip</td></tr>
+
+<tr><td>DELETE</td> <td>/api/v1/bookings/:bookingId</td>  <td>Users can delete a booking</td></tr>
+
+</table>
+
 
 ## Usage
 
